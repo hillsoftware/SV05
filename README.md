@@ -17,7 +17,9 @@ Features and settings of my firmware.
 6) Cancel Object is activated ( not really needed if you use Octoprint, but allows you to live cancel objects in a multi-object print). This requires slicer setup to use. If you use Octoprint you can add the exclude region plugin to get the same effect and more.
 7) I have power fail resume removed from the firmware. If you need this, let me know and I can add it back. 
 
-My typical operation to configure printer.
+I recommend doing a PID tune of the bed and hotend, and calibrating your extruder e-steps. 
+
+My typical operation to level printer. 
 
 1) I do the bed tramming wizard first. This will auto home, heat up bed and nozzle as mentioned above. I then use the LCD to go to each of the four corners and let the probe find the Z difference between center home and that corner. I then turn the bed knob for that corner accordingly and remeasure that point. Getting it as close to zero as possible. I do this for all four corners. After one go through of all four corners, I usually exit this menu and go back in. This re-homes and finds the new Z home value (I find the Z home changes if you make any decent amount of changes with the four bed knobs). I then usually repeat it and find that I have to do small tweaks to get all four corners to as close to 0.00 as possible.  Now your bed is trammed.  You can always do this manually the old school way, but I like this method.
 
@@ -28,7 +30,5 @@ My typical operation to configure printer.
 4) Then I go to the save settings on the sv05 menu to save everything above.
 
 5) You can always live adjust your z offset if neeeded and save a better value if you find during your print it isn't where you want it to be.
-
-6) Do a PID tune of the hotend and bed. The code has my PID values, but yours may very. Mine should be a good starting point.
 
 That is basically it. I welcome any feedback or suggestions.  I do plan on looking into UBL leveling and a few other things, but this has got me printing great prints.
