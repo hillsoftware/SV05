@@ -7,6 +7,8 @@ If you just want to install my compiled binary, copy the mysv05-custom-marlin-re
 
 IT IS VERY IMPORTANT when changing firmware to reset the EEPROM. It should ask this on startup of my new firmware, but if it doesn't go into the menus on the SV05 and reset the EEPROM.
 
+Be sure to remove the bin file from the SD card after upgrading. If you want to go back to stock Sovol firmware you can download it at https://sovol3d.com/pages/download and put it on an SD card and re-flash it.
+
 Features and settings of my firmware.
 
 1) 5x5 Bi-linear bed leveling. (I may switch to UBL in a newer version after some testing)
