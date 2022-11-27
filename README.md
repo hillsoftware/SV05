@@ -5,6 +5,8 @@ If you wish to modify and compile yourself you will also want to download the ba
 
 If you just want to install my compiled binary, copy the mysv05-custom-marlin-release_v1.bin to an sd card (make sure there are no other bin files on it).  Make sure your SV05 is turned off, insert the sdcard into the SV05, turn on the SV05.  It will take 10 - 20 seconds to update. The screen will be blank and then the marlin info should come up and the rom boot normally.
 
+You don't have to rename the binary to firmware.bin or anything. Just put it on a FAT 32 formatted SD card. The mainboard remembers the file name so if you want to go to the original Sovol firmware, or a new one from me or someone else, just make sure the filename isn't the same as the last one you flashed.
+
 IT IS VERY IMPORTANT when changing firmware to reset the EEPROM. It should ask this on startup of my new firmware, but if it doesn't go into the menus on the SV05 and reset the EEPROM.
 
 Be sure to remove the bin file from the SD card after upgrading. If you want to go back to stock Sovol firmware you can download it at https://sovol3d.com/pages/download and put it on an SD card and re-flash it.
