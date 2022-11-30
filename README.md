@@ -1,7 +1,7 @@
 # SV05
 Release version 1 of my custom build of Marlin 2.1.1 for the stock Sovol SV05.
 
-If you wish to modify and compile yourself you will also want to download the base source code at https://github.com/MarlinFirmware/Marlin/archive/2.1.1.zip , and add my header files to that source and compile.
+This is based of the source code for 2.1.1 at https://github.com/MarlinFirmware/Marlin/archive/2.1.1.zip
 
 If you just want to install my compiled binary, copy the mysv05-custom-marlin-release_v1.bin to an sd card (make sure there are no other bin files on it).  Make sure your SV05 is turned off, insert the sdcard into the SV05, turn on the SV05.  It will take 10 - 20 seconds to update. The screen will be blank and then the marlin info should come up and the rom boot normally.
 
@@ -17,7 +17,7 @@ Features and settings of my firmware.
 6) Cancel Object is activated ( not really needed if you use Octoprint, but allows you to live cancel objects in a multi-object print). This requires slicer setup to use. If you use Octoprint you can add the exclude region plugin to get the same effect and more.
 7) I have power fail resume removed from the firmware. If you need this, let me know and I can add it back. 
 
-I recommend doing a PID tune of the bed and hotend, and calibrating your extruder e-steps. 
+I recommend doing a PID tune of the bed and hotend, and calibrating your extruder e-steps after installing my firmware. Just to be sure everything is good for your system. 
 
 My typical operation to level printer. 
 
