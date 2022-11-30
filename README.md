@@ -1,38 +1,101 @@
-# SV05
-Release version 1 of my custom build of Marlin 2.1.1 for the stock Sovol SV05.
+<p align="center"><img src="buildroot/share/pixmaps/logo/marlin-outrun-nf-500.png" height="250" alt="MarlinFirmware's logo" /></p>
 
-If you wish to modify and compile yourself you will also want to download the base source code at https://github.com/MarlinFirmware/Marlin/archive/2.1.1.zip , and add my header files to that source and compile.
+<h1 align="center">Marlin 3D Printer Firmware</h1>
 
-If you just want to install my compiled binary, copy the mysv05-custom-marlin-release_v1.bin to an sd card (make sure there are no other bin files on it).  Make sure your SV05 is turned off, insert the sdcard into the SV05, turn on the SV05.  It will take 10 - 20 seconds to update. The screen will be blank and then the marlin info should come up and the rom boot normally.
+<p align="center">
+    <a href="/LICENSE"><img alt="GPL-V3.0 License" src="https://img.shields.io/github/license/marlinfirmware/marlin.svg"></a>
+    <a href="https://github.com/MarlinFirmware/Marlin/graphs/contributors"><img alt="Contributors" src="https://img.shields.io/github/contributors/marlinfirmware/marlin.svg"></a>
+    <a href="https://github.com/MarlinFirmware/Marlin/releases"><img alt="Last Release Date" src="https://img.shields.io/github/release-date/MarlinFirmware/Marlin"></a>
+    <a href="https://github.com/MarlinFirmware/Marlin/actions"><img alt="CI Status" src="https://github.com/MarlinFirmware/Marlin/actions/workflows/test-builds.yml/badge.svg"></a>
+    <a href="https://github.com/sponsors/thinkyhead"><img alt="GitHub Sponsors" src="https://img.shields.io/github/sponsors/thinkyhead?color=db61a2"></a>
+    <br />
+    <a href="https://twitter.com/MarlinFirmware"><img alt="Follow MarlinFirmware on Twitter" src="https://img.shields.io/twitter/follow/MarlinFirmware?style=social&logo=twitter"></a>
+</p>
 
-You don't have to rename the binary to firmware.bin or anything. Just put it on a FAT 32 formatted SD card. The mainboard remembers the file name so if you want to go to the original Sovol firmware, or a new one from me or someone else, just make sure the filename isn't the same as the last one you flashed.
+Additional documentation can be found at the [Marlin Home Page](https://marlinfw.org/).
+Please test this firmware and let us know if it misbehaves in any way. Volunteers are standing by!
 
-IT IS VERY IMPORTANT when changing firmware to reset the EEPROM. It should ask this on startup of my new firmware, but if it doesn't go into the menus on the SV05 and reset the EEPROM.
+## Marlin 2.1
 
-Be sure to remove the bin file from the SD card after upgrading. If you want to go back to stock Sovol firmware you can download it at https://sovol3d.com/pages/download and put it on an SD card and re-flash it.
+Marlin 2.1 continues to support both 32-bit ARM and 8-bit AVR boards while adding support for up to 9 coordinated axes and to up to 8 extruders.
 
-Features and settings of my firmware.
+Download earlier versions of Marlin on the [Releases page](https://github.com/MarlinFirmware/Marlin/releases).
 
-1) 5x5 Bi-linear bed leveling. (I may switch to UBL in a newer version after some testing)
-2) After G28, I have it set to always activate bedleveling. This way you don't need to do it in startup g-code.
-3) I heat the hotend to 150 and the bed to 60 before doing any home, bedleveling, tramming, etc. So be aware when you do an initial home on power up, it will home x, home y, and then pause until it heats up. I find 150 give me identical results to 200 and prevents filament from oozing out. Be aware when doing Z offset calibration if you have any filement stuck on the nozzle, you need to remove it with tweezers or whatever so you get a good Z offset
-4) Bed tramming wizard. 
-5) Host action commands are on (no idea why Sovol had this off). This is useful for Octoprint, etc.
-6) Cancel Object is activated ( not really needed if you use Octoprint, but allows you to live cancel objects in a multi-object print). This requires slicer setup to use. If you use Octoprint you can add the exclude region plugin to get the same effect and more.
-7) I have power fail resume removed from the firmware. If you need this, let me know and I can add it back. 
+## Example Configurations
 
-I recommend doing a PID tune of the bed and hotend, and calibrating your extruder e-steps. 
+Before building Marlin you'll need to configure it for your specific hardware. Your vendor should have already provided source code with configurations for the installed firmware, but if you ever decide to upgrade you'll need updated configuration files. Marlin users have contributed dozens of tested example configurations to get you started. Visit the [MarlinFirmware/Configurations](https://github.com/MarlinFirmware/Configurations) repository to find the right configuration for your hardware.
 
-My typical operation to level printer. 
+## Building Marlin 2.1
 
-1) I do the bed tramming wizard first. This will auto home, heat up bed and nozzle as mentioned above. I then use the LCD to go to each of the four corners and let the probe find the Z difference between center home and that corner. I then turn the bed knob for that corner accordingly and remeasure that point. Getting it as close to zero as possible. I do this for all four corners. After one go through of all four corners, I usually exit this menu and go back in. This re-homes and finds the new Z home value (I find the Z home changes if you make any decent amount of changes with the four bed knobs). I then usually repeat it and find that I have to do small tweaks to get all four corners to as close to 0.00 as possible.  Now your bed is trammed.  You can always do this manually the old school way, but I like this method.
+To build Marlin 2.1 you'll need [Arduino IDE 1.8.8 or newer](https://www.arduino.cc/en/main/software) or [PlatformIO](http://docs.platformio.org/en/latest/ide.html#platformio-ide). Detailed build and install instructions are posted at:
 
-2) After doing #1 above I usually re-home the unit, and then do an auto bed level. I let it go through all 25 points. 
+  - [Installing Marlin (Arduino)](http://marlinfw.org/docs/basics/install_arduino.html)
+  - [Installing Marlin (VSCode)](http://marlinfw.org/docs/basics/install_platformio_vscode.html).
 
-3) I then go under configuration menu, advanced, z offset wizard, and I set the offset to get a little tug on a piece of paper. 
+## Hardware Abstraction Layer (HAL)
 
-4) Then I go to the save settings on the sv05 menu to save everything above.
+Marlin 2.0 introduced a layer of abstraction to allow all the existing high-level code to be built for 32-bit platforms while still retaining full 8-bit AVR compatibility. Retaining AVR compatibility and a single code-base is important to us, because we want to make sure that features and patches get as much testing and attention as possible, and that all platforms always benefit from the latest improvements.
 
-5) You can always live adjust your z offset if neeeded and save a better value if you find during your print it isn't where you want it to be.
+### Supported Platforms
 
-That is basically it. I welcome any feedback or suggestions.  I do plan on looking into UBL leveling and a few other things, but this has got me printing great prints.
+  Platform|MCU|Example Boards
+  --------|---|-------
+  [Arduino AVR](https://www.arduino.cc/)|ATmega|RAMPS, Melzi, RAMBo
+  [Teensy++ 2.0](https://www.microchip.com/en-us/product/AT90USB1286)|AT90USB1286|Printrboard
+  [Arduino Due](https://www.arduino.cc/en/Guide/ArduinoDue)|SAM3X8E|RAMPS-FD, RADDS, RAMPS4DUE
+  [ESP32](https://github.com/espressif/arduino-esp32)|ESP32|FYSETC E4, E4d@BOX, MRR
+  [LPC1768](https://www.nxp.com/products/processors-and-microcontrollers/arm-microcontrollers/general-purpose-mcus/lpc1700-cortex-m3/512-kb-flash-64-kb-sram-ethernet-usb-lqfp100-package:LPC1768FBD100)|ARM® Cortex-M3|MKS SBASE, Re-ARM, Selena Compact
+  [LPC1769](https://www.nxp.com/products/processors-and-microcontrollers/arm-microcontrollers/general-purpose-mcus/lpc1700-cortex-m3/512-kb-flash-64-kb-sram-ethernet-usb-lqfp100-package:LPC1769FBD100)|ARM® Cortex-M3|Smoothieboard, Azteeg X5 mini, TH3D EZBoard
+  [STM32F103](https://www.st.com/en/microcontrollers-microprocessors/stm32f103.html)|ARM® Cortex-M3|Malyan M200, GTM32 Pro, MKS Robin, BTT SKR Mini
+  [STM32F401](https://www.st.com/en/microcontrollers-microprocessors/stm32f401.html)|ARM® Cortex-M4|ARMED, Rumba32, SKR Pro, Lerdge, FYSETC S6, Artillery Ruby
+  [STM32F7x6](https://www.st.com/en/microcontrollers-microprocessors/stm32f7x6.html)|ARM® Cortex-M7|The Borg, RemRam V1
+  [STM32G0B1RET6](https://www.st.com/en/microcontrollers-microprocessors/stm32g0x1.html)|ARM® Cortex-M0+|BigTreeTech SKR mini E3 V3.0
+  [STM32H743xIT6](https://www.st.com/en/microcontrollers-microprocessors/stm32h743-753.html)|ARM® Cortex-M7|BigTreeTech SKR V3.0, SKR EZ V3.0, SKR SE BX V2.0/V3.0
+  [SAMD51P20A](https://www.adafruit.com/product/4064)|ARM® Cortex-M4|Adafruit Grand Central M4
+  [Teensy 3.5](https://www.pjrc.com/store/teensy35.html)|ARM® Cortex-M4|
+  [Teensy 3.6](https://www.pjrc.com/store/teensy36.html)|ARM® Cortex-M4|
+  [Teensy 4.0](https://www.pjrc.com/store/teensy40.html)|ARM® Cortex-M7|
+  [Teensy 4.1](https://www.pjrc.com/store/teensy41.html)|ARM® Cortex-M7|
+  Linux Native|x86/ARM/etc.|Raspberry Pi
+
+## Submitting Patches
+
+- Submit **Bug Fixes** as Pull Requests to the ([bugfix-2.1.x](https://github.com/MarlinFirmware/Marlin/tree/bugfix-2.1.x)) branch.
+- Follow the [Coding Standards](http://marlinfw.org/docs/development/coding_standards.html) to gain points with the maintainers.
+- Please submit your questions and concerns to the [Issue Queue](https://github.com/MarlinFirmware/Marlin/issues).
+
+## Marlin Support
+
+The Issue Queue is reserved for Bug Reports and Feature Requests. To get help with configuration and troubleshooting, please use the following resources:
+
+- [Marlin Documentation](https://marlinfw.org) - Official Marlin documentation
+- [Marlin Discord](https://discord.gg/n5NJ59y) - Discuss issues with Marlin users and developers
+- Facebook Group ["Marlin Firmware"](https://www.facebook.com/groups/1049718498464482/)
+- RepRap.org [Marlin Forum](https://forums.reprap.org/list.php?415)
+- Facebook Group ["Marlin Firmware for 3D Printers"](https://www.facebook.com/groups/3Dtechtalk/)
+- [Marlin Configuration](https://www.youtube.com/results?search_query=marlin+configuration) on YouTube
+
+## Contributors
+
+Marlin is constantly improving thanks to a huge number of contributors from all over the world bringing their specialties and talents. Huge thanks are due to [all the contributors](https://github.com/MarlinFirmware/Marlin/graphs/contributors) who regularly patch up bugs, help direct traffic, and basically keep Marlin from falling apart. Marlin's continued existence would not be possible without them.
+
+## Administration
+
+Regular users can open and close their own issues, but only the administrators can do project-related things like add labels, merge changes, set milestones, and kick trolls. The current Marlin admin team consists of:
+
+ - Scott Lahteine [[@thinkyhead](https://github.com/thinkyhead)] - USA - Project Maintainer &nbsp; [💸 Donate](https://www.thinkyhead.com/donate-to-marlin)
+ - Roxanne Neufeld [[@Roxy-3D](https://github.com/Roxy-3D)] - USA
+ - Keith Bennett [[@thisiskeithb](https://github.com/thisiskeithb)] - USA &nbsp; [💸 Donate](https://github.com/sponsors/thisiskeithb)
+ - Peter Ellens [[@ellensp](https://github.com/ellensp)] - New Zealand  &nbsp; [💸 Donate](https://ko-fi.com/ellensp)
+ - Victor Oliveira [[@rhapsodyv](https://github.com/rhapsodyv)] - Brazil
+ - Chris Pepper [[@p3p](https://github.com/p3p)] - UK
+ - Jason Smith [[@sjasonsmith](https://github.com/sjasonsmith)] - USA
+ - Luu Lac [[@shitcreek](https://github.com/shitcreek)] - USA
+ - Bob Kuhn [[@Bob-the-Kuhn](https://github.com/Bob-the-Kuhn)] - USA
+ - Erik van der Zalm [[@ErikZalm](https://github.com/ErikZalm)] - Netherlands &nbsp; [💸 Donate](https://flattr.com/submit/auto?user_id=ErikZalm&url=https://github.com/MarlinFirmware/Marlin&title=Marlin&language=&tags=github&category=software)
+
+## License
+
+Marlin is published under the [GPL license](/LICENSE) because we believe in open development. The GPL comes with both rights and obligations. Whether you use Marlin firmware as the driver for your open or closed-source product, you must keep Marlin open, and you must provide your compatible Marlin source code to end users upon request. The most straightforward way to comply with the Marlin license is to make a fork of Marlin on Github, perform your modifications, and direct users to your modified fork.
+
+While we can't prevent the use of this code in products (3D printers, CNC, etc.) that are closed source or crippled by a patent, we would prefer that you choose another firmware or, better yet, make your own.
