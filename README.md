@@ -1,7 +1,7 @@
 # SV05
 Release version 1 of my custom build of Marlin 2.1.1 for the stock Sovol SV05.
 
-This is based of the source code for 2.1.1 at https://github.com/MarlinFirmware/Marlin/archive/2.1.1.zip
+This is based of the source code for 2.1.1 at https://github.com/MarlinFirmware
 
 If you just want to install my compiled binary, copy the mysv05-custom-marlin-release_v1.bin to an sd card (make sure there are no other bin files on it).  Make sure your SV05 is turned off, insert the sdcard into the SV05, turn on the SV05.  It will take 10 - 20 seconds to update. The screen will be blank and then the marlin info should come up and the rom boot normally.
 
